@@ -1,17 +1,24 @@
 import { Request , Response } from "express"
 import { SigninService , SignupService } from "../services/auth_services"
+import {CreateUserSchema  , SigninSchema  } from "@repo/common/types"
 
 export const SigninController= async(req:Request, res:Response)=>{
      
     try{
 
+        
+
         const {email , password} = req.body;
 
-        if(!email || !password){
-            return res.status(404).json({
-                message : "Email or Password is Empty.."
+        const data = SigninSchema.safeParse(req.body);
+
+        if(!data.success){
+            return res.status(400).json({
+                message : "Invalid Credentials"  
             })
         }
+
+        
 
         const result = await SigninService(email  , password);
 
@@ -48,7 +55,14 @@ export const SignupController = async(req:Request , res:Response)=>{
 
    try {
         const { email, username, password } = req.body;
+        
+        const data = CreateUserSchema.safeParse(req.body);
 
+        if(!data){
+            return res.status(400).json({
+                message : "Invalid Credentials"
+            })
+        }
         // Call service
         const user = await SignupService(email, username, password);
 
