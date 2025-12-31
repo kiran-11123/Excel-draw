@@ -13,7 +13,7 @@ export const CreateRoomContoller = async (
   try {
     const { name } = req.body as CreateRoomBody;
 
-    const user_id  = req.user.user_id;
+    const user_id = (req as AuthRequest).user.user_id;
 
     await CreateRoomService(name, user_id);
 
