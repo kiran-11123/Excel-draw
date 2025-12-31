@@ -14,15 +14,32 @@ datasource db {
 }
 
 model User {
-  userId    Int      @id @default(autoincrement())
-  email     String   @unique
-  username  String   @unique
+  userId    String      @id @default(uuid())
+  email     String      @unique
   password  String
-  createdAt DateTime @default(now())
+  username  String      @unique
+  photo     String?
+  createdAt DateTime    @default(now())
+
+  rooms Room[]
+  chat  Chat[]
 }
 
 model Room {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  createdAt DateTime @default(now())
+  id           Int      @id @default(autoincrement())
+  slug         String   @unique 
+  createdAt    DateTime @default(now())
+  adminId      String 
+  admin         User    @relation(fields: [adminId] , references: [userId])
+  chats        Chat[]
 }
+
+model Chat{
+  
+  id          Int        @id @default(autoincrement())
+  roomId      Int        
+  message     String
+  userId      String
+  room        Room   @relation(fields: [roomId] , references: [id])
+  user         User   @relation(fields: [userId] , references: [userId])
+} 

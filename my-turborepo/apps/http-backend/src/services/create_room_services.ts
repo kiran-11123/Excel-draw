@@ -1,14 +1,14 @@
 import { prisma } from "@repo/db/prisma";
 
 
-export const CreateRoomService = async(name :string)=>{
+export const CreateRoomService = async(name :string , user_id : string)=>{
       
     try{
 
         const find_room = await prisma.room.findUnique({
-             where:{
-                name
-             }
+            where:{
+                slug : name
+            }
         })
 
         if(find_room){
@@ -17,7 +17,8 @@ export const CreateRoomService = async(name :string)=>{
 
         await prisma.room.create({
             data:{
-                name :name
+                slug :name,
+                adminId : user_id
             }
         })
 
