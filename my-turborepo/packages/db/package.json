@@ -5,17 +5,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-    "@prisma/client": "^7.2.0"
-  },
-  "exports":{
-     "./prisma": "./src/index.ts"
+  "exports": {
+    "./prisma": "./src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@prisma/client": "^7.2.0",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^25.0.3",
     "prisma": "^7.2.0",
