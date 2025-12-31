@@ -21,7 +21,12 @@ export const SigninController= async(req:Request, res:Response)=>{
         
 
         const result = await SigninService(email  , password);
-
+          res.cookie("token", result, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            maxAge: 3600000
+        });
         return res.status(200).json({
             message : "User Logged in successfully",
             token:result

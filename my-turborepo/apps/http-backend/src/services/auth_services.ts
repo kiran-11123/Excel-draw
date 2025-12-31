@@ -25,6 +25,8 @@ export const SigninService = async(email:string , password:string)=>{
         const token_details = {user_id : find_user.userId , user_name : find_user.username , email  :find_user.email }
 
         const token = jwt.sign(token_details , JWT_SECRET ,{expiresIn : "7d"})
+        
+        
 
         return token 
 
