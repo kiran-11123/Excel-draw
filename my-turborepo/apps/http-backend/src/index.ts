@@ -1,3 +1,9 @@
+import 'dotenv/config'
+import { config } from 'dotenv';
+import path from 'path';
+
+config({ path: path.resolve(process.cwd(), '../../.env') });
+
 import express from 'express'
 import cors from 'cors'
 import Create_Room_Router from './routes/create-room';

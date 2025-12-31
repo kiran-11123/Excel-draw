@@ -63,7 +63,7 @@ export const SignupController = async(req:Request , res:Response)=>{
         
         const data = CreateUserSchema.safeParse(req.body);
 
-        if(!data){
+        if(!data.success){
             return res.status(400).json({
                 message : "Invalid Credentials"
             })
