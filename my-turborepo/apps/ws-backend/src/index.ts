@@ -1,10 +1,14 @@
-import { WebSocketServer } from "ws"
+import { WebSocketServer, WebSocket } from "ws"
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import {JWT_SECRET} from "@repo/backend-common/config"
 const wss = new WebSocketServer({port : 8080})
 
 
 function checkUser(token : string):string | null{
+
+    try{
+
+    
     const decoded = jwt.verify(token , JWT_SECRET);
 
      if(typeof decoded === 'string'){
@@ -17,6 +21,13 @@ function checkUser(token : string):string | null{
           return null;
     }
 return decoded.user_id;
+
+
+    }
+
+    catch(er){
+        return null;
+    }
      
 }
 
@@ -35,7 +46,7 @@ const users = [{
 
 interface User_interface{
      
-    ws:WebSocket,
+    ws: WebSocket,
     rooms :String[],
     users : String,
 }
@@ -46,14 +57,16 @@ const users: User_interface[]   = [];
 
 
 
-wss.on('connection ' , function connection(ws ,request){
+
+wss.on('connection', function connection(ws, request) {
+
       
     const url = request.url;
 
     if(!url) return;
 
     const queryParams = new URLSearchParams(url.split('?')[1]); 
-    const token = queryParams.get('token') || "";
+    const token = queryParams.get('token') || "";   
 
     const decoded_user_id :string  | null  = checkUser(token);
     
@@ -86,9 +99,16 @@ wss.on('connection ' , function connection(ws ,request){
         const parsedData = JSON.parse(data as unknown as string);
        
         if(parsedData.type === 'join_room'){
-            const user = users.find(x => x.ws === ws);
-            user?.rooms.push(parsedData.roomId);
+
+             const user = users.find(u => u.ws === ws);
+    if (!user) return;
+
+    if (parsedData.type === "join_room") {
+        if (!user.rooms.includes(parsedData.roomId)) {
+            user.rooms.push(parsedData.roomId);
         }
+    }
+               }
 
 
         if(parsedData.type === 'leave_room'){
