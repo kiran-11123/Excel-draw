@@ -15,12 +15,14 @@ export const CreateRoomService = async(name :string , user_id : string)=>{
             throw new Error("Room Name is Already Taken")
         }
 
-        await prisma.room.create({
+       const created_room =  await prisma.room.create({
             data:{
                 slug :name,
                 adminId : user_id
             }
         })
+
+        return  created_room.id;
 
         
 

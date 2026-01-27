@@ -15,6 +15,7 @@ export const CreateRoomContoller = async (
 
     return res.status(200).json({
       message: "Room Created Successfully",
+      room_id : result
     });
   } catch (er) {
     const err = er as Error;

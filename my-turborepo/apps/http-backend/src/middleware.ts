@@ -30,7 +30,6 @@ const Authentication_token = (
       return res.status(401).json({ message: "Invalid token" });
     }
 
-    // ⬇️ CAST req → AuthRequest HERE
     (req as AuthRequest).user = { user_id: decoded.user_id };
 
     next();
