@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { JWT_SECRET } from "@repo/backend-common/config";
+import {JWT_SECRET} from "@repo/backend-common/config"
 
 export interface AuthRequest extends Request {
   user: {
@@ -25,6 +25,8 @@ const Authentication_token = (
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as MyJwtPayload;
+
+    console.log("Decoded token in middleware: ", JWT_SECRET);
 
     if (!decoded.user_id) {
       return res.status(401).json({ message: "Invalid token" });

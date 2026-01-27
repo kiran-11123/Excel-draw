@@ -1,4 +1,4 @@
-import {JWT_SECRET} from '@repo/backend-common/config'
+import {JWT_SECRET} from "@repo/backend-common/config"
 import {prisma} from "@repo/db/prisma"
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
@@ -23,6 +23,8 @@ export const SigninService = async(email:string , password:string)=>{
         }
        
         const token_details = {user_id : find_user.userId , user_name : find_user.username , email  :find_user.email }
+
+        console.log("jwt secret in backend : " , JWT_SECRET);
 
         const token = jwt.sign(token_details , JWT_SECRET ,{expiresIn : "7d"})
         
